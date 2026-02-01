@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
             printf("Unable to open database file\n");
             return -1;
         }
-        if(validate_db_header(dbfd, &dbhdr ,&employe ) == STATUS_ERROR) {
+        if(validate_db_header(dbfd, &dbhdr ) == STATUS_ERROR) {
             printf("Unable to Validate the DB Header!\n");
             return -1;
         }
@@ -67,5 +67,5 @@ int main(int argc, char *argv[]) {
     printf("Newfile: %d\n", newFile);
     printf("File Path: %s\n", filePath);
 
-    output_file(dbfd, dbhdr);
+    output_file(dbfd, dbhdr,employe );
 }
