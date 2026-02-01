@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
     int c;
 
     struct dbheader_t *dbhdr = NULL;
+    struct employee_t *employe = NULL;
 
     while((c = getopt(argc,argv,"nf:")) != -1) {
         switch(c) {
@@ -57,7 +58,7 @@ int main(int argc, char *argv[]) {
             printf("Unable to open database file\n");
             return -1;
         }
-        if(validate_db_header(dbfd, &dbhdr) == STATUS_ERROR) {
+        if(validate_db_header(dbfd, &dbhdr ,&employe ) == STATUS_ERROR) {
             printf("Unable to Validate the DB Header!\n");
             return -1;
         }
