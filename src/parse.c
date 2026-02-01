@@ -12,7 +12,12 @@
 
 
 void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
-
+    for (int i = 0; i < dbhdr->count; i++) {
+        printf("Employee %d\n", i+1);
+        printf("\tName: %s\n", employees[i].name);
+        printf("\tAddress: %s\n", employees[i].address);
+        printf("\tHours: %d\n", employees[i].hours);
+    }
 }
 
 int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
@@ -30,7 +35,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     if (hours == NULL) return STATUS_ERROR;    
     
     struct employee_t *e = *employees;
-    e = realloc(e,sizeof(struct employee_t)*dbhdr->count+1);
+    e = realloc(e, sizeof(struct employee_t) * (dbhdr->count + 1));
     if(e == NULL) {
         return STATUS_ERROR;
     }
