@@ -18,12 +18,13 @@ int main(int argc, char *argv[]) {
     bool listEmployees = false;
     char *filePath = NULL;
     char *addstring = NULL;
+    char *removeEmployee = NULL;
     int c;
     struct dbheader_t *dbhdr = NULL;
     struct employee_t *employees = NULL;
 
 
-    while((c = getopt(argc,argv,"nf:a:l")) != -1) {
+    while((c = getopt(argc,argv,"nf:a:lr:")) != -1) {
         switch(c) {
             case 'n':
                  newFile = true;
@@ -36,6 +37,9 @@ int main(int argc, char *argv[]) {
                 break;
             case 'l':
                 listEmployees = true;
+                break;
+            case 'r':
+                removeEmployee = optarg;
                 break;
             case '?':
                 printf("Unknswn Option -%c\n",c);
@@ -83,6 +87,9 @@ int main(int argc, char *argv[]) {
 
     if(listEmployees) {
         list_employees(dbhdr,employees);
+    }
+    if(removeEmployee) {
+        remove_employee(dbhdr,&employees, removeEmployee);
     }
 
     output_file(dbfd, dbhdr, employees);

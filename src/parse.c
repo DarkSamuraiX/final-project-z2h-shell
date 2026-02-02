@@ -11,6 +11,37 @@
 #include "parse.h"
 
 
+
+int remove_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *removeEmployee){
+    struct employee_t *e = *employees;
+    int maxPersonsCurrent = dbhdr->count;
+    int indexToDelete = -1;
+    for(int i = 0; i < maxPersonsCurrent; i++) {
+        if(strcmp(removeEmployee,e[i].name) == 0) {
+            indexToDelete = i;
+            break;
+        }
+    }
+
+    if(indexToDelete == -1) {
+        printf("Employee %s not found!", removeEmployee);
+        return STATUS_ERROR;
+    } else {
+        for(int i = indexToDelete; i < maxPersonsCurrent - 1; ++i ) {
+            e[i] = e[i+ 1];
+        }
+    }
+
+    dbhdr->count = maxPersonsCurrent - 1;
+    e = realloc(e, sizeof(struct employee_t) * dbhdr->count);
+    if(e == NULL) {
+        printf("Reallocate Failed!");
+        return STATUS_ERROR;
+    }
+    *employees = e;
+    return STATUS_SUCCESS;
+}
+
 void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
     if (NULL == dbhdr) return STATUS_ERROR;
     if (NULL == employees) return STATUS_ERROR;
@@ -43,7 +74,6 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     }
 
     dbhdr-> count++;
-
     strncpy(e[dbhdr->count-1].name,name,sizeof(e[dbhdr->count-1].name) - 1);
     strncpy(e[dbhdr->count-1].address,addr,sizeof(e[dbhdr->count-1].address) - 1);
     e[dbhdr->count-1].hours = atoi(hours);
